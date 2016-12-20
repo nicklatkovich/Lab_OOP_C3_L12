@@ -54,19 +54,33 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 		m_memDC.SelectObject(brush);
 
 		switch (ch) {
-		case '1': { // Circle
+		case '1': // Circle
+		case '4': // Square
+		{
 			int radius = rand() % 50 + 50;
 			int x = rand() % (clientRect.right + 2 * radius) - radius;
 			int y = rand() % (clientRect.bottom + 2 * radius) - radius;
-			m_memDC.Ellipse(x - radius, y - radius, x + radius, y + radius);
+			if (ch == '1') {
+				m_memDC.Ellipse(x - radius, y - radius, x + radius, y + radius);
+			}
+			else {
+				m_memDC.Rectangle(x - radius, y - radius, x + radius, y + radius);
+			}
 			break;
 		}
-		case '2': { // Ellipse
+		case '2': // Ellipse
+		case '3': // Rectangle
+		{
 			int width = rand() % 150 + 50;
 			int height = rand() % 150 + 50;
 			int x = rand() % (clientRect.right + 2 * width) - width;
 			int y = rand() % (clientRect.bottom + 2 * height) - height;
-			m_memDC.Ellipse(x - width, y - height, x + width, y + height);
+			if (ch == '2') {
+				m_memDC.Ellipse(x - width, y - height, x + width, y + height);
+			}
+			else {
+				m_memDC.Rectangle(x - width, y - height, x + width, y + height);
+			}
 			break;
 		}
 		}
