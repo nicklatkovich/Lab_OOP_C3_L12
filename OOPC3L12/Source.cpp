@@ -1,4 +1,5 @@
 #include <afxwin.h>
+#define RANDOM_COLOR RGB(rand() % 256, rand() % 256, rand() % 256)
 
 class CMainWnd : public CFrameWnd {
 public:
@@ -40,12 +41,12 @@ void CMainWnd::OnPaint() {
 void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 	if (ch < '7' && ch > '0') {
 		int penWidth = rand() % 3 + 1;
-		COLORREF penColor = RGB(rand() % 256, rand() % 256, rand() % 256);
+		COLORREF penColor = RANDOM_COLOR;
 		CPen pen(PS_SOLID, penWidth, penColor);
 		m_memDC.SelectObject(pen);
 
 		CBrush brush;
-		COLORREF brushColor = RGB(rand() % 256, rand() % 256, rand() % 256);
+		COLORREF brushColor = RANDOM_COLOR;
 		brush.CreateSolidBrush(brushColor);
 		m_memDC.SelectObject(brush);
 
