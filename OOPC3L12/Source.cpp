@@ -1,6 +1,7 @@
 #include <afxwin.h>
 #define RANDOM_COLOR RGB(rand() % 256, rand() % 256, rand() % 256)
 #define PI 3.14159265
+#define BACK_COLOR RGB(255, 255, 255)
 
 double doubleRand(double max, unsigned precision = 8) {
 	unsigned random = rand() % precision;
@@ -12,17 +13,34 @@ public:
 	CMainWnd();
 	afx_msg void OnPaint();
 	afx_msg void OnKeyDown(UINT, UINT, UINT);
+	afx_msg void OnLButtonDown(UINT, CPoint);
 	CDC m_memDC;
 	CBitmap m_bmp;
 	CBrush m_bkbrush;
+	void ClearWindow(COLORREF color = BACK_COLOR);
 private:
 	DECLARE_MESSAGE_MAP();
 };
 
 BEGIN_MESSAGE_MAP(CMainWnd, CFrameWnd)
+	ON_WM_LBUTTONDOWN()
 	ON_WM_KEYDOWN()
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
+
+void CMainWnd::ClearWindow(COLORREF color) {
+	RECT clientRect;
+	this->GetClientRect(&clientRect);
+
+	CPen pen(PS_NULL, 0, RGB(0, 0, 0));
+	m_memDC.SelectObject(pen);
+
+	CBrush brush;
+	brush.CreateSolidBrush(color);
+	m_memDC.SelectObject(brush);
+	m_memDC.Rectangle(0, 0, clientRect.right, clientRect.bottom);
+	this->InvalidateRect(0, FALSE);
+}
 
 CMainWnd::CMainWnd() {
 	Create(NULL, L"Lab12", WS_OVERLAPPEDWINDOW, rectDefault, NULL, NULL);
@@ -35,6 +53,7 @@ CMainWnd::CMainWnd() {
 	m_bkbrush.CreateStockObject(WHITE_BRUSH);
 	m_memDC.SelectObject(&m_bkbrush);
 	m_memDC.PatBlt(0, 0, maxX, maxY, PATCOPY);
+	ClearWindow();
 }
 
 void CMainWnd::OnPaint() {
@@ -116,6 +135,10 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 		}
 		this->InvalidateRect(0, FALSE);
 	}
+}
+
+void CMainWnd::OnLButtonDown(UINT, CPoint) {
+	ClearWindow();
 }
 
 class CMyApp : public CWinApp {
