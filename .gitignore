@@ -2,3 +2,5 @@
 *.VC.VC.opendb
 *.suo
 *.vcxproj.filters
+*/Debug/
+Debug/
