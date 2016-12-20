@@ -38,9 +38,23 @@ void CMainWnd::OnPaint() {
 }
 
 void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
-	if (ch == '1') {
-		m_memDC.Ellipse(0, 0, 100, 100);
-		this->InvalidateRect(0, FALSE);
+	if (ch < '7' && ch > '0') {
+		int penStyle;
+		int random = rand();
+		switch (random / (RAND_MAX / 3)) {
+		case 0: penStyle = PS_SOLID; break;
+		case 1: penStyle = PS_DOT;  break;
+		case 2: penStyle = PS_DASH; break;
+		}
+		int penWidth = rand() % 3 + 1;
+		COLORREF penColor = RGB(rand() % 256, rand() % 256, rand() % 256);
+		CPen pen(penStyle, penWidth, penColor);
+		m_memDC.SelectObject(pen);
+
+		if (ch == '1') {
+			m_memDC.Ellipse(0, 0, 100, 100);
+			this->InvalidateRect(0, FALSE);
+		}
 	}
 }
 
