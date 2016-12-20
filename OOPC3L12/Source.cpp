@@ -152,8 +152,18 @@ void CMainWnd::OnRButtonDown(UINT, CPoint) {
 	int yStep = 4;
 	int x = clientRect.right / 2 - steps * xStep;
 	int y = clientRect.bottom / 2 - steps * yStep;
+	double red = rand() % 256;
+	double green = rand() % 256;
+	double blue = rand() % 256;
+	double redStep = (double)red / steps;
+	double greenStep = (double)green / steps;
+	double blueStep = (double)blue / steps;
+	red = green = blue = 0;
 	for (int i = 0; i < steps; i++) {
-		m_memDC.SetTextColor(RANDOM_COLOR);
+		m_memDC.SetTextColor(RGB(red, green, blue));
+		red += redStep;
+		green += greenStep;
+		blue += blueStep;
 		m_memDC.SetBkMode(TRANSPARENT);
 		m_memDC.SelectObject(CreateFont(96, 32, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH, NULL));
 		RECT position;
