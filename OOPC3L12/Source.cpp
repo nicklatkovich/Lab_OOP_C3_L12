@@ -4,6 +4,7 @@ class CMainWnd : public CFrameWnd {
 public:
 	CMainWnd();
 	afx_msg void OnPaint();
+	afx_msg void OnKeyDown(UINT, UINT, UINT);
 	CDC m_memDC;
 	CBitmap m_bmp;
 	CBrush m_bkbrush;
@@ -12,6 +13,7 @@ private:
 };
 
 BEGIN_MESSAGE_MAP(CMainWnd, CFrameWnd)
+	ON_WM_KEYDOWN()
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
@@ -33,6 +35,13 @@ void CMainWnd::OnPaint() {
 	RECT clientRect;
 	this->GetClientRect(&clientRect);
 	paintDC.BitBlt(0, 0, clientRect.right, clientRect.bottom, &m_memDC, 0, 0, SRCCOPY);
+}
+
+void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
+	if (ch == '1') {
+		m_memDC.Ellipse(0, 0, 100, 100);
+		this->InvalidateRect(0, FALSE);
+	}
 }
 
 class CMyApp : public CWinApp {
