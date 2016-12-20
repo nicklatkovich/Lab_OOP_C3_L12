@@ -1,5 +1,6 @@
 #include <afxwin.h>
 #define RANDOM_COLOR RGB(rand() % 256, rand() % 256, rand() % 256)
+#define PI 3.14159265
 
 class CMainWnd : public CFrameWnd {
 public:
@@ -56,6 +57,8 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 		switch (ch) {
 		case '1': // Circle
 		case '4': // Square
+		case '5': // Sector
+		case '6': // Segment
 		{
 			int radius = rand() % 50 + 50;
 			int x = rand() % (clientRect.right + 2 * radius) - radius;
@@ -63,8 +66,21 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 			if (ch == '1') {
 				m_memDC.Ellipse(x - radius, y - radius, x + radius, y + radius);
 			}
-			else {
+			else if (ch == '4') {
 				m_memDC.Rectangle(x - radius, y - radius, x + radius, y + radius);
+			}
+			else {
+				double a = (double)(rand() % 360) / 180.0 * PI;
+				double b = (double)(rand() % 360) / 180.0 * PI;
+				if (ch == '5') {
+
+				}
+				else {
+					m_memDC.Chord(
+						x - radius, y - radius, x + radius, y + radius,
+						x + (int)round(sin(a) * radius), y + (int)round(cos(a) * radius),
+						x + (int)round(sin(b) * radius), y + (int)round(cos(b) * radius));
+				}
 			}
 			break;
 		}
