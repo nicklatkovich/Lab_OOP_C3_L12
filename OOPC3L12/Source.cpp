@@ -167,11 +167,19 @@ void CMainWnd::OnRButtonDown(UINT, CPoint) {
 		m_memDC.SetBkMode(TRANSPARENT);
 		m_memDC.SelectObject(CreateFont(96, 32, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH, NULL));
 		RECT position;
-		//  остыль, чтобы центр текста был в координатах (x,y)
-		position.left = x - 200;
-		position.top = y - 200;
-		position.right = x + 200;
-		position.bottom = y + 200;
+
+		////  остыль, чтобы центр текста был в координатах (x,y)
+		//position.left = x - 200;
+		//position.top = y - 200;
+		//position.right = x + 200;
+		//position.bottom = y + 200;
+
+		// Ѕолее правильный метод, но немного сложнее
+		position.left = -max(x, clientRect.right - x);
+		position.right = 2 * x - position.left;
+		position.top = -max(y, clientRect.bottom - y);
+		position.bottom = 2 * y - position.top;
+
 		m_memDC.DrawText(L"OOP Lab12", &position, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 		x += xStep;
 		y += yStep;
