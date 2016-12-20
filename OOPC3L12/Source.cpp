@@ -2,6 +2,11 @@
 #define RANDOM_COLOR RGB(rand() % 256, rand() % 256, rand() % 256)
 #define PI 3.14159265
 
+double doubleRand(double max, unsigned precision = 8) {
+	unsigned random = rand() % precision;
+	return max / precision * random;
+}
+
 class CMainWnd : public CFrameWnd {
 public:
 	CMainWnd();
@@ -63,26 +68,28 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 			int radius = rand() % 50 + 50;
 			int x = rand() % (clientRect.right + 2 * radius) - radius;
 			int y = rand() % (clientRect.bottom + 2 * radius) - radius;
+			int x1 = x - radius;
+			int y1 = y - radius;
+			int x2 = x + radius;
+			int y2 = y + radius;
 			if (ch == '1') {
-				m_memDC.Ellipse(x - radius, y - radius, x + radius, y + radius);
+				m_memDC.Ellipse(x1, y1, x2, y2);
 			}
 			else if (ch == '4') {
-				m_memDC.Rectangle(x - radius, y - radius, x + radius, y + radius);
+				m_memDC.Rectangle(x1, y1, x2, y2);
 			}
 			else {
-				double a = (double)(rand() % 360) / 180.0 * PI;
-				double b = (double)(rand() % 360) / 180.0 * PI;
+				double a = doubleRand(2 * PI);
+				double b = a + PI / 2 + doubleRand(PI);
+				int x3 = x + (int)round(sin(a) * radius);
+				int y3 = y + (int)round(cos(a) * radius);
+				int x4 = x + (int)round(sin(b) * radius);
+				int y4 = y + (int)round(cos(b) * radius);
 				if (ch == '5') {
-					m_memDC.Pie(
-						x - radius, y - radius, x + radius, y + radius,
-						x + (int)round(sin(a) * radius), y + (int)round(cos(a) * radius),
-						x + (int)round(sin(b) * radius), y + (int)round(cos(b) * radius));
+					m_memDC.Pie(x1, y1, x2, y2, x3, y3, x4, y4);
 				}
 				else {
-					m_memDC.Chord(
-						x - radius, y - radius, x + radius, y + radius,
-						x + (int)round(sin(a) * radius), y + (int)round(cos(a) * radius),
-						x + (int)round(sin(b) * radius), y + (int)round(cos(b) * radius));
+					m_memDC.Chord(x1, y1, x2, y2, x3, y3, x4, y4);
 				}
 			}
 			break;
@@ -94,11 +101,15 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 			int height = rand() % 150 + 50;
 			int x = rand() % (clientRect.right + 2 * width) - width;
 			int y = rand() % (clientRect.bottom + 2 * height) - height;
+			int x1 = x - width;
+			int y1 = y - height;
+			int x2 = x + width;
+			int y2 = y + height;
 			if (ch == '2') {
-				m_memDC.Ellipse(x - width, y - height, x + width, y + height);
+				m_memDC.Ellipse(x1, y1, x2, y2);
 			}
 			else {
-				m_memDC.Rectangle(x - width, y - height, x + width, y + height);
+				m_memDC.Rectangle(x1, y1, x2, y2);
 			}
 			break;
 		}
