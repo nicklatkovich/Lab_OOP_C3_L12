@@ -53,13 +53,24 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 		brush.CreateSolidBrush(brushColor);
 		m_memDC.SelectObject(brush);
 
-		if (ch == '1') {
+		switch (ch) {
+		case '1': { // Circle
 			int radius = rand() % 50 + 50;
 			int x = rand() % (clientRect.right + 2 * radius) - radius;
 			int y = rand() % (clientRect.bottom + 2 * radius) - radius;
 			m_memDC.Ellipse(x - radius, y - radius, x + radius, y + radius);
-			this->InvalidateRect(0, FALSE);
+			break;
 		}
+		case '2': { // Ellipse
+			int width = rand() % 150 + 50;
+			int height = rand() % 150 + 50;
+			int x = rand() % (clientRect.right + 2 * width) - width;
+			int y = rand() % (clientRect.bottom + 2 * height) - height;
+			m_memDC.Ellipse(x - width, y - height, x + width, y + height);
+			break;
+		}
+		}
+		this->InvalidateRect(0, FALSE);
 	}
 }
 
