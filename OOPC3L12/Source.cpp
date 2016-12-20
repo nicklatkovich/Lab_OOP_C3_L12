@@ -14,6 +14,7 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnKeyDown(UINT, UINT, UINT);
 	afx_msg void OnLButtonDown(UINT, CPoint);
+	afx_msg void OnRButtonDown(UINT, CPoint);
 	CDC m_memDC;
 	CBitmap m_bmp;
 	CBrush m_bkbrush;
@@ -24,6 +25,7 @@ private:
 
 BEGIN_MESSAGE_MAP(CMainWnd, CFrameWnd)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_RBUTTONDOWN()
 	ON_WM_KEYDOWN()
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
@@ -139,6 +141,32 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 
 void CMainWnd::OnLButtonDown(UINT, CPoint) {
 	ClearWindow();
+}
+
+void CMainWnd::OnRButtonDown(UINT, CPoint) {
+	RECT clientRect;
+	this->GetClientRect(&clientRect);
+
+	int steps = 6;
+	int xStep = 4;
+	int yStep = 4;
+	int x = clientRect.right / 2 - steps * xStep;
+	int y = clientRect.bottom / 2 - steps * yStep;
+	for (int i = 0; i < steps; i++) {
+		m_memDC.SetTextColor(RANDOM_COLOR);
+		m_memDC.SetBkMode(TRANSPARENT);
+		m_memDC.SelectObject(CreateFont(96, 32, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH, NULL));
+		RECT position;
+		//  остыль, чтобы центр текста был в координатах (x,y)
+		position.left = x - 200;
+		position.top = y - 200;
+		position.right = x + 200;
+		position.bottom = y + 200;
+		m_memDC.DrawText(L"OOP Lab12", &position, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+		x += xStep;
+		y += yStep;
+	}
+	this->InvalidateRect(0, FALSE);
 }
 
 class CMyApp : public CWinApp {
