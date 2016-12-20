@@ -51,6 +51,11 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 		CPen pen(penStyle, penWidth, penColor);
 		m_memDC.SelectObject(pen);
 
+		CBrush brush;
+		COLORREF brushColor = RGB(rand() % 256, rand() % 256, rand() % 256);
+		brush.CreateSolidBrush(brushColor);
+		m_memDC.SelectObject(brush);
+
 		if (ch == '1') {
 			m_memDC.Ellipse(0, 0, 100, 100);
 			this->InvalidateRect(0, FALSE);
