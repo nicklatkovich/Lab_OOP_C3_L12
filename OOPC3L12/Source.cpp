@@ -40,6 +40,9 @@ void CMainWnd::OnPaint() {
 
 void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 	if (ch < '7' && ch > '0') {
+		RECT clientRect;
+		this->GetClientRect(&clientRect);
+
 		int penWidth = rand() % 3 + 1;
 		COLORREF penColor = RANDOM_COLOR;
 		CPen pen(PS_SOLID, penWidth, penColor);
@@ -51,7 +54,10 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 		m_memDC.SelectObject(brush);
 
 		if (ch == '1') {
-			m_memDC.Ellipse(0, 0, 100, 100);
+			int radius = rand() % 50 + 50;
+			int x = rand() % (clientRect.right + 2 * radius) - radius;
+			int y = rand() % (clientRect.bottom + 2 * radius) - radius;
+			m_memDC.Ellipse(x - radius, y - radius, x + radius, y + radius);
 			this->InvalidateRect(0, FALSE);
 		}
 	}
