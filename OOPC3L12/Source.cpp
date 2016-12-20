@@ -73,7 +73,10 @@ void CMainWnd::OnKeyDown(UINT ch, UINT, UINT) {
 				double a = (double)(rand() % 360) / 180.0 * PI;
 				double b = (double)(rand() % 360) / 180.0 * PI;
 				if (ch == '5') {
-
+					m_memDC.Pie(
+						x - radius, y - radius, x + radius, y + radius,
+						x + (int)round(sin(a) * radius), y + (int)round(cos(a) * radius),
+						x + (int)round(sin(b) * radius), y + (int)round(cos(b) * radius));
 				}
 				else {
 					m_memDC.Chord(
